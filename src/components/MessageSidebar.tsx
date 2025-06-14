@@ -1,4 +1,3 @@
-
 import { Hash, User, ListTodo } from "lucide-react";
 import {
   Sidebar,
@@ -147,7 +146,7 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
-                className="mx-2 rounded border border-white text-sidebar-foreground hover:bg-sidebar-accent"
+                className="mx-2 rounded border border-sidebar-border dark:border-white text-sidebar-foreground hover:bg-sidebar-accent"
               >
                 <button
                   className="w-full flex items-center p-2"

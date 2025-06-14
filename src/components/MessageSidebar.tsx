@@ -11,6 +11,8 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Sheet, SheetContent, SheetTrigger as SheetPrimitiveTrigger } from "@/components/ui/sheet";
+import { TodoList } from "./TodoList";
 
 interface Channel {
   id: string;
@@ -141,23 +143,30 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                className="mx-2 rounded border border-sidebar-border dark:border-white text-sidebar-foreground hover:bg-sidebar-accent"
-              >
-                <button
-                  className="w-full flex items-center p-2"
-                >
-                  <ListTodo className="w-4 h-4 mr-2" />
-                  {!collapsed && <span>Todo List</span>}
-                </button>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
+        <Sheet>
+          <SidebarGroup>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SheetPrimitiveTrigger asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className="mx-2 rounded border border-sidebar-border dark:border-white text-sidebar-foreground hover:bg-sidebar-accent"
+                  >
+                    <button
+                      className="w-full flex items-center p-2"
+                    >
+                      <ListTodo className="w-4 h-4 mr-2" />
+                      {!collapsed && <span>Todo List</span>}
+                    </button>
+                  </SidebarMenuButton>
+                </SheetPrimitiveTrigger>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+          <SheetContent className="w-[400px] sm:w-[540px] p-0">
+            <TodoList />
+          </SheetContent>
+        </Sheet>
       </SidebarContent>
     </Sidebar>
   );

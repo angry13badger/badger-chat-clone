@@ -127,8 +127,16 @@ const Index = () => {
     }));
 
     setTimeout(() => {
-      const respondingUser =
-        directMessages[Math.floor(Math.random() * directMessages.length)];
+      let respondingUser: { id: string; name: string };
+
+      if (selectedUser) {
+        const dmUser = directMessages.find(dm => dm.id === selectedUser);
+        if (!dmUser) return; // Should not happen
+        respondingUser = dmUser;
+      } else {
+        // If it's a channel, a random user from DMs responds.
+        respondingUser = directMessages[Math.floor(Math.random() * directMessages.length)];
+      }
 
       let currentShuffled = [...shuffledResponses];
       if (currentShuffled.length === 0) {
@@ -154,19 +162,11 @@ const Index = () => {
 
       setMessages((prev) => ({
         ...prev,
-        [respondingUser.id]: [
-          ...(prev[respondingUser.id] || []),
+        [activeChatId]: [
+          ...(prev[activeChatId] || []),
           responseMessage,
         ],
       }));
-
-      if (selectedUser !== respondingUser.id) {
-        setDirectMessages((prevDMs) =>
-          prevDMs.map((dm) =>
-            dm.id === respondingUser.id ? { ...dm, unread: dm.unread + 1 } : dm
-          )
-        );
-      }
     }, 2000);
   };
 

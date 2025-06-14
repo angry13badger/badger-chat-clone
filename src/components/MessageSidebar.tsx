@@ -1,4 +1,3 @@
-
 import { Hash, User } from "lucide-react";
 import {
   Sidebar,
@@ -53,10 +52,10 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
           {!collapsed && (
             <div>
               <h1 className="font-bold text-xl">Team Workspace</h1>
-              <p className="text-sm text-muted-foreground flex items-center mt-1">
+              <div className="text-sm text-muted-foreground flex items-center mt-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                 Mike Badger
-              </p>
+              </div>
             </div>
           )}
           <SidebarTrigger className="text-sidebar-foreground hover:bg-sidebar-accent" />

@@ -36,7 +36,7 @@ const directMessages = [
 ];
 
 export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect }: MessageSidebarProps) {
-  const { collapsed } = useSidebar() as { collapsed: boolean };
+  const { collapsed } = useSidebar() as unknown as { collapsed: boolean };
 
   const getStatusColor = (status: string) => {
     switch (status) {

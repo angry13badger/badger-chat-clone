@@ -1,5 +1,7 @@
 
-import { Hash, User, Users } from "lucide-react";
+import { Hash, User, Users, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Switch } from "@/components/ui/switch";
 
 interface ChatHeaderProps {
   selectedChannel: string;
@@ -7,6 +9,8 @@ interface ChatHeaderProps {
 }
 
 export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
+  const { theme, setTheme } = useTheme();
+
   const getChannelInfo = () => {
     if (selectedUser) {
       const userNames: Record<string, string> = {
@@ -42,7 +46,7 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
   const channelInfo = getChannelInfo();
 
   return (
-    <div className="border-b border-border bg-card px-6 py-4">
+    <div className="border-b border-border bg-card px-6 py-4 flex items-center justify-between">
       <div className="flex items-center space-x-3">
         <div className="text-muted-foreground">{channelInfo.icon}</div>
         <div>
@@ -57,6 +61,16 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
           </h2>
           <p className="text-sm text-muted-foreground">{channelInfo.description}</p>
         </div>
+      </div>
+      <div className="flex items-center space-x-2">
+        <Sun className="h-5 w-5" />
+        <Switch
+          checked={theme === 'dark'}
+          onCheckedChange={(checked) => {
+            setTheme(checked ? 'dark' : 'light');
+          }}
+        />
+        <Moon className="h-5 w-5" />
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export interface CustomCommand {
 }
 
 const initialChannels = [
-  { id: "general", name: "general", unread: 3 },
+  { id: "general", name: "general", unread: 0 },
   { id: "random", name: "random", unread: 0 },
   { id: "development", name: "development", unread: 7 },
   { id: "design", name: "design", unread: 1 },

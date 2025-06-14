@@ -30,6 +30,11 @@ export function MessageList({ messages }: MessageListProps) {
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline space-x-2">
                 <span className="font-semibold text-foreground">{message.user}</span>
+                {message.user === "AI Assistant" && (
+                  <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                    Autoreply
+                  </span>
+                )}
                 <span className="text-xs text-muted-foreground">{message.timestamp}</span>
               </div>
               <p className="mt-1 text-foreground/90 leading-relaxed">{message.content}</p>

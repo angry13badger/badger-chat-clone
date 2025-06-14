@@ -54,11 +54,63 @@ const initialGeneralMessages: Message[] = [
   },
 ];
 
-const allChats = [...initialChannels, ...initialDirectMessages];
-const initialMessages: Record<string, Message[]> = Object.fromEntries(
-  allChats.map((chat) => [chat.id, []])
-);
-initialMessages.general = initialGeneralMessages;
+const otherUsers = initialDirectMessages.map(dm => ({ name: dm.name, avatar: dm.name.split(" ").map(n => n[0]).join("") }));
+
+const sampleMessageContents = [
+    "Hey, could you take a look at this when you have a moment?",
+    "I've pushed the latest changes to the dev branch.",
+    "What are your thoughts on the new design mockups?",
+    "Let's sync up about this tomorrow morning.",
+    "I'm running a bit late, will be there in 10 minutes.",
+    "Can someone review my pull request?",
+    "This is ready for QA.",
+    "I'm blocked on this task, can anyone help?",
+    "Just a heads up, the server will be down for maintenance tonight.",
+    "Great job on the presentation!",
+    "I have a question about the project requirements.",
+    "Let's schedule a call to discuss this further.",
+    "The latest build failed, looking into it now.",
+    "I've updated the documentation with the new API endpoints.",
+    "This looks awesome! ✨"
+];
+
+const generateMessages = (count: number, authors: {name: string, avatar: string}[]) => {
+    const messages: Message[] = [];
+    if (count === 0) return messages;
+
+    const shuffledContents = [...sampleMessageContents].sort(() => 0.5 - Math.random());
+
+    for (let i = 0; i < count; i++) {
+        const author = authors[i % authors.length];
+        const content = shuffledContents[i % shuffledContents.length];
+        const timestamp = new Date(Date.now() - (count - i) * 60000 * 5);
+
+        messages.push({
+            id: `${author.name}-${Date.now()}-${i}`,
+            user: author.name,
+            avatar: author.avatar,
+            content: content,
+            timestamp: new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isOwn: false,
+        });
+    }
+    return messages;
+};
+
+const initialMessages: Record<string, Message[]> = {};
+
+initialChannels.forEach(channel => {
+    if (channel.id === 'general') {
+        initialMessages.general = initialGeneralMessages;
+    } else {
+        initialMessages[channel.id] = generateMessages(channel.unread, otherUsers);
+    }
+});
+
+initialDirectMessages.forEach(dm => {
+    const author = { name: dm.name, avatar: dm.name.split(" ").map(n => n[0]).join("") };
+    initialMessages[dm.id] = generateMessages(dm.unread, [author]);
+});
 
 const possibleResponses = [
   "That's a great point!",

@@ -42,20 +42,20 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
   const channelInfo = getChannelInfo();
 
   return (
-    <div className="border-b border-gray-200 bg-white px-6 py-4">
+    <div className="border-b border-border bg-card px-6 py-4">
       <div className="flex items-center space-x-3">
-        <div className="text-gray-600">{channelInfo.icon}</div>
+        <div className="text-muted-foreground">{channelInfo.icon}</div>
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+          <h2 className="text-lg font-semibold text-card-foreground flex items-center">
             {channelInfo.name}
             {!selectedUser && (
-              <div className="ml-3 flex items-center text-sm text-gray-500">
+              <div className="ml-3 flex items-center text-sm text-muted-foreground">
                 <Users className="w-4 h-4 mr-1" />
                 12 members
               </div>
             )}
           </h2>
-          <p className="text-sm text-gray-500">{channelInfo.description}</p>
+          <p className="text-sm text-muted-foreground">{channelInfo.description}</p>
         </div>
       </div>
     </div>

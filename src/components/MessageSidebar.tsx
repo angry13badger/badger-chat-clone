@@ -1,5 +1,5 @@
 
-import { Hash, MessageCircle, Users, User } from "lucide-react";
+import { Hash, User } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +17,7 @@ interface MessageSidebarProps {
   selectedChannel: string;
   selectedUser: string | null;
   onChannelSelect: (channel: string) => void;
-  onUserSelect: (user: string) => void;
+  onUserSelect: (user: string | null) => void;
 }
 
 const channels = [
@@ -36,7 +36,7 @@ const directMessages = [
 ];
 
 export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect }: MessageSidebarProps) {
-  const { collapsed } = useSidebar();
+  const { collapsed } = useSidebar() as { collapsed: boolean };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -47,25 +47,25 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
   };
 
   return (
-    <Sidebar className={`${collapsed ? "w-16" : "w-64"} border-r border-gray-200 bg-slate-800 text-white`}>
-      <div className="p-4 border-b border-gray-700">
+    <Sidebar className={`${collapsed ? "w-16" : "w-64"} border-r border-sidebar-border bg-sidebar text-sidebar-foreground`}>
+      <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
           {!collapsed && (
             <div>
-              <h1 className="font-bold text-xl text-white">Team Workspace</h1>
-              <p className="text-sm text-gray-300 flex items-center mt-1">
+              <h1 className="font-bold text-xl">Team Workspace</h1>
+              <p className="text-sm text-muted-foreground flex items-center mt-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                 Mike Badger
               </p>
             </div>
           )}
-          <SidebarTrigger className="text-white hover:bg-gray-700" />
+          <SidebarTrigger className="text-sidebar-foreground hover:bg-sidebar-accent" />
         </div>
       </div>
 
-      <SidebarContent className="bg-slate-800">
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-300 font-semibold px-4 py-2">
+          <SidebarGroupLabel className="text-muted-foreground font-semibold px-4 py-2">
             {!collapsed && "Channels"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -76,15 +76,12 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
                     asChild
                     className={`mx-2 rounded ${
                       selectedChannel === channel.id && !selectedUser
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-sidebar-foreground hover:bg-sidebar-accent"
                     }`}
                   >
                     <button 
-                      onClick={() => {
-                        onChannelSelect(channel.id);
-                        onUserSelect("");
-                      }}
+                      onClick={() => onChannelSelect(channel.id)}
                       className="w-full flex items-center justify-between p-2"
                     >
                       <div className="flex items-center">
@@ -105,7 +102,7 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-300 font-semibold px-4 py-2">
+          <SidebarGroupLabel className="text-muted-foreground font-semibold px-4 py-2">
             {!collapsed && "Direct Messages"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -116,21 +113,18 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
                     asChild
                     className={`mx-2 rounded ${
                       selectedUser === user.id
-                        ? "bg-blue-600 text-white" 
-                        : "text-gray-300 hover:bg-gray-700"
+                        ? "bg-primary text-primary-foreground" 
+                        : "text-sidebar-foreground hover:bg-sidebar-accent"
                     }`}
                   >
                     <button 
-                      onClick={() => {
-                        onUserSelect(user.id);
-                        onChannelSelect("");
-                      }}
+                      onClick={() => onUserSelect(user.id)}
                       className="w-full flex items-center justify-between p-2"
                     >
                       <div className="flex items-center">
                         <div className="relative mr-2">
                           <User className="w-4 h-4" />
-                          <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-slate-800 ${getStatusColor(user.status)}`}></div>
+                          <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-sidebar ${getStatusColor(user.status)}`}></div>
                         </div>
                         {!collapsed && <span>{user.name}</span>}
                       </div>

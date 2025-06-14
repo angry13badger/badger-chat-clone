@@ -27,26 +27,27 @@ export function MessageInput({ onSendMessage }: MessageInputProps) {
   };
 
   return (
-    <div className="border-t border-gray-200 bg-white p-6">
-      <form onSubmit={handleSubmit} className="flex space-x-3">
+    <div className="border-t border-border bg-card p-6">
+      <form onSubmit={handleSubmit} className="flex space-x-3 items-center">
         <div className="flex-1">
           <Input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            className="w-full resize-none h-12 text-base"
           />
         </div>
         <Button
           type="submit"
           disabled={!message.trim()}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          size="icon"
+          className="h-12 w-12 flex-shrink-0"
         >
-          <MessageCircle className="w-5 h-5" />
+          <MessageCircle className="w-6 h-6" />
         </Button>
       </form>
-      <p className="text-xs text-gray-500 mt-2">
+      <p className="text-xs text-muted-foreground mt-2">
         Press Enter to send, Shift + Enter for new line
       </p>
     </div>

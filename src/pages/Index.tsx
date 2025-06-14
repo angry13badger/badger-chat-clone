@@ -3,6 +3,7 @@ import { MessageSidebar } from "@/components/MessageSidebar";
 import { ChatArea } from "@/components/ChatArea";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Message } from "@/components/MessageList";
+import { type Task } from "@/components/TodoList";
 
 const initialChannels = [
   { id: "general", name: "general", unread: 3 },
@@ -17,6 +18,11 @@ const initialDirectMessages = [
   { id: "john-smith", name: "John Smith", status: "away", unread: 0 },
   { id: "emma-wilson", name: "Emma Wilson", status: "online", unread: 1 },
   { id: "alex-brown", name: "Alex Brown", status: "offline", unread: 0 },
+];
+
+const initialTasks: Task[] = [
+  { id: '1', name: 'Review design mockups for the new landing page', author: 'Alice', completed: false },
+  { id: '2', name: 'Implement sidebar functionality with animations', author: 'Bob', completed: true },
 ];
 
 const initialGeneralMessages: Message[] = [
@@ -134,6 +140,7 @@ const Index = () => {
   const [shuffledResponses, setShuffledResponses] = useState(() =>
     [...possibleResponses].sort(() => 0.5 - Math.random())
   );
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const handleChannelSelect = (channelId: string) => {
     setSelectedChannel(channelId);
@@ -177,6 +184,39 @@ const Index = () => {
       ...prev,
       [activeChatId]: [...(prev[activeChatId] || []), newMessage],
     }));
+
+    if (content.startsWith("/task ")) {
+      const taskName = content.substring("/task ".length).trim();
+      if (taskName) {
+        const newTask: Task = {
+          id: crypto.randomUUID(),
+          name: taskName,
+          author: "Mike Badger",
+          completed: false,
+        };
+        setTasks((currentTasks) => [newTask, ...currentTasks]);
+
+        setTimeout(() => {
+          const responseMessage: Message = {
+            id: Date.now().toString(),
+            user: "AI Assistant",
+            avatar: "AI",
+            content: "Task was created and added to your todo list.",
+            timestamp: new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            isOwn: false,
+          };
+
+          setMessages((prev) => ({
+            ...prev,
+            [activeChatId]: [...(prev[activeChatId] || []), responseMessage],
+          }));
+        }, 1000);
+      }
+      return;
+    }
 
     setTimeout(() => {
       let respondingUser: { id: string; name: string };
@@ -235,6 +275,8 @@ const Index = () => {
           onUserSelect={handleUserSelect}
           channels={channels}
           directMessages={directMessages}
+          tasks={tasks}
+          setTasks={setTasks}
         />
         <ChatArea
           selectedChannel={selectedChannel}

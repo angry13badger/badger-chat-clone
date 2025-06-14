@@ -35,17 +35,13 @@ interface MessageSidebarProps {
   onUserSelect: (user: string | null) => void;
   channels: Channel[];
   directMessages: DirectMessage[];
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const initialTasks: Task[] = [
-  { id: '1', name: 'Review design mockups for the new landing page', author: 'Alice', completed: false },
-  { id: '2', name: 'Implement sidebar functionality with animations', author: 'Bob', completed: true },
-];
-
-export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages }: MessageSidebarProps) {
+export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages, tasks, setTasks }: MessageSidebarProps) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const getStatusColor = (status: string) => {
     switch (status) {

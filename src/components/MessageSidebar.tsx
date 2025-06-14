@@ -1,5 +1,5 @@
 
-import { Hash, User } from "lucide-react";
+import { Hash, User, ListTodo } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -140,6 +140,24 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                className="mx-2 rounded border border-white text-sidebar-foreground hover:bg-sidebar-accent"
+              >
+                <button
+                  className="w-full flex items-center p-2"
+                >
+                  <ListTodo className="w-4 h-4 mr-2" />
+                  {!collapsed && <span>Todo List</span>}
+                </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

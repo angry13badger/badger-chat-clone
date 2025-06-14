@@ -1,4 +1,3 @@
-
 import { Hash, User, ListTodo, Bot } from "lucide-react";
 import { useState } from "react";
 import {
@@ -15,6 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Sheet, SheetContent, SheetTrigger as SheetPrimitiveTrigger } from "@/components/ui/sheet";
 import { TodoList, type Task } from "./TodoList";
+import { AIAssistantPanel } from "./AIAssistantPanel";
+import { type CustomCommand } from "@/pages/Index";
 
 interface Channel {
   id: string;
@@ -38,9 +39,11 @@ interface MessageSidebarProps {
   directMessages: DirectMessage[];
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  commands: CustomCommand[];
+  setCommands: React.Dispatch<React.SetStateAction<CustomCommand[]>>;
 }
 
-export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages, tasks, setTasks }: MessageSidebarProps) {
+export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages, tasks, setTasks, commands, setCommands }: MessageSidebarProps) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
 
@@ -147,10 +150,10 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <Sheet>
-          <SidebarGroup>
-            <SidebarMenu>
-              <SidebarMenuItem>
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <Sheet>
                 <SheetPrimitiveTrigger asChild>
                   <SidebarMenuButton
                     asChild
@@ -164,26 +167,33 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
                     </button>
                   </SidebarMenuButton>
                 </SheetPrimitiveTrigger>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  className="mx-2 rounded text-sidebar-foreground hover:bg-sidebar-accent"
-                >
-                  <button
-                    className="w-full flex items-center p-2"
+                <SheetContent className="w-[400px] sm:w-[540px] p-0">
+                  <TodoList tasks={tasks} setTasks={setTasks} />
+                </SheetContent>
+              </Sheet>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <Sheet>
+                <SheetPrimitiveTrigger asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className="mx-2 rounded text-sidebar-foreground hover:bg-sidebar-accent"
                   >
-                    <Bot className="w-4 h-4 mr-2" />
-                    {!collapsed && <span>AI Assistant</span>}
-                  </button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroup>
-          <SheetContent className="w-[400px] sm:w-[540px] p-0">
-            <TodoList tasks={tasks} setTasks={setTasks} />
-          </SheetContent>
-        </Sheet>
+                    <button
+                      className="w-full flex items-center p-2"
+                    >
+                      <Bot className="w-4 h-4 mr-2" />
+                      {!collapsed && <span>AI Assistant</span>}
+                    </button>
+                  </SidebarMenuButton>
+                </SheetPrimitiveTrigger>
+                <SheetContent className="w-[400px] sm:w-[540px] p-0">
+                  <AIAssistantPanel commands={commands} setCommands={setCommands} />
+                </SheetContent>
+              </Sheet>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );

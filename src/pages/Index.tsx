@@ -5,6 +5,14 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { Message } from "@/components/MessageList";
 import { type Task } from "@/components/TodoList";
 
+export interface CustomCommand {
+  id: string;
+  name: string;
+  description: string;
+  createsTask: boolean;
+  response: string;
+}
+
 const initialChannels = [
   { id: "general", name: "general", unread: 3 },
   { id: "random", name: "random", unread: 0 },
@@ -23,6 +31,16 @@ const initialDirectMessages = [
 const initialTasks: Task[] = [
   { id: '1', name: 'Review design mockups for the new landing page', author: 'Alice', completed: false },
   { id: '2', name: 'Implement sidebar functionality with animations', author: 'Bob', completed: true },
+];
+
+const initialCommands: CustomCommand[] = [
+  {
+    id: 'task-command',
+    name: '/task',
+    description: 'Creates a new task in the Todo List.',
+    createsTask: true,
+    response: 'Task was created and added to your todo list.'
+  }
 ];
 
 const initialGeneralMessages: Message[] = [
@@ -141,6 +159,7 @@ const Index = () => {
     [...possibleResponses].sort(() => 0.5 - Math.random())
   );
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [customCommands, setCustomCommands] = useState<CustomCommand[]>(initialCommands);
 
   const handleChannelSelect = (channelId: string) => {
     setSelectedChannel(channelId);
@@ -185,23 +204,32 @@ const Index = () => {
       [activeChatId]: [...(prev[activeChatId] || []), newMessage],
     }));
 
-    if (content.startsWith("/task ")) {
-      const taskName = content.substring("/task ".length).trim();
-      if (taskName) {
-        const newTask: Task = {
-          id: crypto.randomUUID(),
-          name: taskName,
-          author: "Mike Badger",
-          completed: false,
-        };
-        setTasks((currentTasks) => [newTask, ...currentTasks]);
+    const commandTrigger = content.split(" ")[0];
+    const command = customCommands.find((c) => c.name === commandTrigger);
 
+    if (command) {
+      const argument = content.substring(command.name.length).trim();
+      let taskCreated = false;
+      if (command.createsTask) {
+        if (argument) {
+          const newTask: Task = {
+            id: crypto.randomUUID(),
+            name: argument,
+            author: "Mike Badger",
+            completed: false,
+          };
+          setTasks((currentTasks) => [newTask, ...currentTasks]);
+          taskCreated = true;
+        }
+      }
+
+      if (!command.createsTask || (command.createsTask && taskCreated)) {
         setTimeout(() => {
           const responseMessage: Message = {
-            id: Date.now().toString(),
+            id: crypto.randomUUID(),
             user: "AI Assistant",
             avatar: "AI",
-            content: "Task was created and added to your todo list.",
+            content: command.response,
             timestamp: new Date().toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
@@ -277,6 +305,8 @@ const Index = () => {
           directMessages={directMessages}
           tasks={tasks}
           setTasks={setTasks}
+          commands={customCommands}
+          setCommands={setCustomCommands}
         />
         <ChatArea
           selectedChannel={selectedChannel}

@@ -1,4 +1,5 @@
-import { Hash, User, ListTodo } from "lucide-react";
+
+import { Hash, User, ListTodo, Bot } from "lucide-react";
 import { useState } from "react";
 import {
   Sidebar,
@@ -163,6 +164,19 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
                     </button>
                   </SidebarMenuButton>
                 </SheetPrimitiveTrigger>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  className="mx-2 rounded text-sidebar-foreground hover:bg-sidebar-accent"
+                >
+                  <button
+                    className="w-full flex items-center p-2"
+                  >
+                    <Bot className="w-4 h-4 mr-2" />
+                    {!collapsed && <span>AI Assistant</span>}
+                  </button>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>

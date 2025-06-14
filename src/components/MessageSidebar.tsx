@@ -1,3 +1,4 @@
+
 import { Hash, User } from "lucide-react";
 import {
   Sidebar,
@@ -35,7 +36,8 @@ interface MessageSidebarProps {
 }
 
 export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages }: MessageSidebarProps) {
-  const { collapsed } = useSidebar() as unknown as { collapsed: boolean };
+  const { state } = useSidebar();
+  const collapsed = state === "collapsed";
 
   const getStatusColor = (status: string) => {
     switch (status) {

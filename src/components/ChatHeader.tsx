@@ -1,7 +1,8 @@
 
-import { Hash, User, Users, Sun, Moon } from "lucide-react";
+import { Hash, User, Users, Sun, Moon, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Switch } from "@/components/ui/switch";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 interface ChatHeaderProps {
   selectedChannel: string;
@@ -48,6 +49,9 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
   return (
     <div className="border-b border-border bg-card px-6 py-4 flex items-center justify-between">
       <div className="flex items-center space-x-3">
+        <SidebarTrigger>
+          <Menu className="h-6 w-6" />
+        </SidebarTrigger>
         <div className="text-muted-foreground">{channelInfo.icon}</div>
         <div>
           <h2 className="text-lg font-semibold text-card-foreground flex items-center">

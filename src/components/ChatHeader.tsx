@@ -1,6 +1,4 @@
 import { Hash, User, Users, Sun, Moon } from "lucide-react";
-import { useTheme } from "next-themes";
-import { Switch } from "@/components/ui/switch";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +8,6 @@ interface ChatHeaderProps {
 }
 
 export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
-  const { theme, setTheme } = useTheme();
   const { state, isMobile, openMobile } = useSidebar();
 
   const getChannelInfo = () => {
@@ -67,16 +64,6 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
           </h2>
           <p className="text-sm text-muted-foreground">{channelInfo.description}</p>
         </div>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Sun className="h-5 w-5" />
-        <Switch
-          checked={theme === 'dark'}
-          onCheckedChange={(checked) => {
-            setTheme(checked ? 'dark' : 'light');
-          }}
-        />
-        <Moon className="h-5 w-5" />
       </div>
     </div>
   );

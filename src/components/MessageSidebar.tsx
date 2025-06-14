@@ -1,5 +1,8 @@
-import { Hash, User, ListTodo, Bot } from "lucide-react";
+
+import { Hash, User, ListTodo, Bot, Sun, Moon } from "lucide-react";
 import { useState } from "react";
+import { useTheme } from "next-themes";
+import { Switch } from "@/components/ui/switch";
 import {
   Sidebar,
   SidebarContent,
@@ -46,6 +49,7 @@ interface MessageSidebarProps {
 export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages, tasks, setTasks, commands, setCommands }: MessageSidebarProps) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const { theme, setTheme } = useTheme();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -56,7 +60,7 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
   };
 
   return (
-    <Sidebar className={`${collapsed ? "w-16" : "w-64"} border-r border-sidebar-border bg-sidebar text-sidebar-foreground`}>
+    <Sidebar className={`flex flex-col ${collapsed ? "w-16" : "w-64"} border-r border-sidebar-border bg-sidebar text-sidebar-foreground`}>
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
           {!collapsed && (
@@ -72,7 +76,7 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
         </div>
       </div>
 
-      <SidebarContent>
+      <SidebarContent className="flex-grow">
         <SidebarGroup>
           <SidebarGroupLabel className="text-muted-foreground font-semibold px-4 py-2">
             {!collapsed && "Channels"}
@@ -195,6 +199,19 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+
+      <div className="p-4 border-t border-sidebar-border">
+        <div className="flex items-center justify-center space-x-2">
+          <Sun className="h-5 w-5" />
+          <Switch
+            checked={theme === 'dark'}
+            onCheckedChange={(checked) => {
+              setTheme(checked ? 'dark' : 'light');
+            }}
+          />
+          <Moon className="h-5 w-5" />
+        </div>
+      </div>
     </Sidebar>
   );
 }

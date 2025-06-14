@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import { MessageSidebar } from "@/components/MessageSidebar";
 import { ChatArea } from "@/components/ChatArea";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Message } from "@/components/MessageList";
 import { type Task } from "@/components/TodoList";
+import { useToast } from "@/hooks/use-toast";
 
 export interface CustomCommand {
   id: string;
@@ -160,6 +162,7 @@ const Index = () => {
   );
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [customCommands, setCustomCommands] = useState<CustomCommand[]>(initialCommands);
+  const { toast } = useToast();
 
   const handleChannelSelect = (channelId: string) => {
     setSelectedChannel(channelId);
@@ -220,6 +223,10 @@ const Index = () => {
           };
           setTasks((currentTasks) => [newTask, ...currentTasks]);
           taskCreated = true;
+          toast({
+            title: "✅ Task Created",
+            description: `The task "${argument}" was added to your to-do list.`,
+          });
         }
       }
 

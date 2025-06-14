@@ -1,4 +1,5 @@
 import { Hash, User, ListTodo } from "lucide-react";
+import { useState } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +13,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Sheet, SheetContent, SheetTrigger as SheetPrimitiveTrigger } from "@/components/ui/sheet";
-import { TodoList } from "./TodoList";
+import { TodoList, type Task } from "./TodoList";
 
 interface Channel {
   id: string;
@@ -36,9 +37,15 @@ interface MessageSidebarProps {
   directMessages: DirectMessage[];
 }
 
+const initialTasks: Task[] = [
+  { id: '1', name: 'Review design mockups for the new landing page', author: 'Alice', completed: false },
+  { id: '2', name: 'Implement sidebar functionality with animations', author: 'Bob', completed: true },
+];
+
 export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages }: MessageSidebarProps) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -164,7 +171,7 @@ export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect,
             </SidebarMenu>
           </SidebarGroup>
           <SheetContent className="w-[400px] sm:w-[540px] p-0">
-            <TodoList />
+            <TodoList tasks={tasks} setTasks={setTasks} />
           </SheetContent>
         </Sheet>
       </SidebarContent>

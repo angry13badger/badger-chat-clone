@@ -7,24 +7,23 @@ import { SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Plus } from 'lucide-react';
 
-interface Task {
+export interface Task {
   id: string;
   name: string;
   author: string;
   completed: boolean;
 }
 
-const initialTasks: Task[] = [
-  { id: '1', name: 'Review design mockups for the new landing page', author: 'Alice', completed: false },
-  { id: '2', name: 'Implement sidebar functionality with animations', author: 'Bob', completed: true },
-];
+interface TodoListProps {
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}
 
-export function TodoList() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+export function TodoList({ tasks, setTasks }: TodoListProps) {
   const [newTaskName, setNewTaskName] = useState('');
 
   const handleToggleTask = (taskId: string) => {
-    setTasks(tasks.map(task =>
+    setTasks(currentTasks => currentTasks.map(task =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
     ));
   };
@@ -38,7 +37,7 @@ export function TodoList() {
       author: 'Mike Badger', // Current user from sidebar
       completed: false,
     };
-    setTasks([newTask, ...tasks]);
+    setTasks(currentTasks => [newTask, ...currentTasks]);
     setNewTaskName('');
   };
 

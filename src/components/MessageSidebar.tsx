@@ -13,29 +13,29 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
+interface Channel {
+  id: string;
+  name: string;
+  unread: number;
+}
+
+interface DirectMessage {
+  id: string;
+  name: string;
+  status: string;
+  unread: number;
+}
+
 interface MessageSidebarProps {
   selectedChannel: string;
   selectedUser: string | null;
   onChannelSelect: (channel: string) => void;
   onUserSelect: (user: string | null) => void;
+  channels: Channel[];
+  directMessages: DirectMessage[];
 }
 
-const channels = [
-  { id: "general", name: "general", unread: 3 },
-  { id: "random", name: "random", unread: 0 },
-  { id: "development", name: "development", unread: 7 },
-  { id: "design", name: "design", unread: 1 },
-  { id: "marketing", name: "marketing", unread: 0 },
-];
-
-const directMessages = [
-  { id: "sarah-johnson", name: "Sarah Johnson", status: "online", unread: 2 },
-  { id: "john-smith", name: "John Smith", status: "away", unread: 0 },
-  { id: "emma-wilson", name: "Emma Wilson", status: "online", unread: 1 },
-  { id: "alex-brown", name: "Alex Brown", status: "offline", unread: 0 },
-];
-
-export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect }: MessageSidebarProps) {
+export function MessageSidebar({ selectedChannel, selectedUser, onChannelSelect, onUserSelect, channels, directMessages }: MessageSidebarProps) {
   const { collapsed } = useSidebar() as unknown as { collapsed: boolean };
 
   const getStatusColor = (status: string) => {

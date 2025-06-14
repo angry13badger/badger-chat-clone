@@ -2,7 +2,8 @@
 import { Hash, User, Users, Sun, Moon, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Switch } from "@/components/ui/switch";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 interface ChatHeaderProps {
   selectedChannel: string;
@@ -11,6 +12,7 @@ interface ChatHeaderProps {
 
 export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
   const { theme, setTheme } = useTheme();
+  const { state, isMobile, openMobile } = useSidebar();
 
   const getChannelInfo = () => {
     if (selectedUser) {
@@ -46,10 +48,13 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
 
   const channelInfo = getChannelInfo();
 
+  // Show trigger on mobile when sidebar is closed, or on desktop when it's collapsed.
+  const showTrigger = (isMobile && !openMobile) || (!isMobile && state === "collapsed");
+
   return (
     <div className="border-b border-border bg-card px-6 py-4 flex items-center justify-between">
       <div className="flex items-center space-x-3">
-        <SidebarTrigger>
+        <SidebarTrigger className={cn(!showTrigger && "invisible")}>
           <Menu className="h-6 w-6" />
         </SidebarTrigger>
         <div className="text-muted-foreground">{channelInfo.icon}</div>

@@ -1,7 +1,7 @@
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface Message {
+export interface Message {
   id: string;
   user: string;
   avatar: string;

@@ -1,4 +1,3 @@
-
 import { Hash, User, ListTodo, Bot, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "next-themes";
@@ -15,7 +14,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Sheet, SheetContent, SheetTrigger as SheetPrimitiveTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetPrimitiveTrigger } from "@/components/ui/sheet";
 import { TodoList, type Task } from "./TodoList";
 import { AIAssistantPanel } from "./AIAssistantPanel";
 import { type CustomCommand } from "@/pages/Index";

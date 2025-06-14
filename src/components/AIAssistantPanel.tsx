@@ -1,4 +1,5 @@
 
+```tsx
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,7 +27,7 @@ export function AIAssistantPanel({ commands, setCommands }: AIAssistantPanelProp
         alert('Command name must start with "/"');
         return;
       }
-      setCommands(prev => [...prev, { ...newCommand, id: crypto.randomUUID() }]);
+      setCommands(prev => [{ ...newCommand, id: crypto.randomUUID() }, ...prev]);
       setNewCommand({ name: '', description: '', response: '', createsTask: false });
     }
   };
@@ -186,3 +187,4 @@ export function AIAssistantPanel({ commands, setCommands }: AIAssistantPanelProp
     </div>
   );
 }
+```

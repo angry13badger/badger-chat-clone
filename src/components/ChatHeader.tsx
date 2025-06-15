@@ -1,3 +1,4 @@
+
 import { Hash, User, Users, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Switch } from "@/components/ui/switch";
@@ -68,7 +69,7 @@ export function ChatHeader({ selectedChannel, selectedUser }: ChatHeaderProps) {
           <p className="text-sm text-muted-foreground">{channelInfo.description}</p>
         </div>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className={cn("flex items-center space-x-2", isMobile && "hidden")}>
         <Sun className="h-5 w-5" />
         <Switch
           checked={theme === 'dark'}
